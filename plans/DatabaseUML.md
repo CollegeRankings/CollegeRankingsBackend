@@ -1,3 +1,3 @@
 # DatabaseUML
 
-![DatabaseUML](/images/DatabaseUML.png)
+![DatabaseUML](/images/DatabaseUMLDesign.jpeg)

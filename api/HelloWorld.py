@@ -14,6 +14,15 @@ class HelloWorldAPI:
     class _GetHello(Resource):
         def get(self, firstname):
             return "Hello World - " + firstname + request.args.get("lastname")
+        
+    class _RegisterAccount(Resource):
+        def get(self):
+            username = request.args.get("username")
+            email = request.args.get("email")
+            password = request.args.get("password")
+            # Call a python function which takes these 3 values and creates a user record and saves into database
+            return "Username: " + username
 
     # building RESTapi resources/interfaces, these routes are added to Web Server
     api.add_resource(_GetHello, '/say/<string:firstname>')
+    api.add_resource(_RegisterAccount, '/register')

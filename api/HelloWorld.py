@@ -23,7 +23,12 @@ class HelloWorldAPI:
             password = request.args.get("password")
             # Call a python function which takes these 3 values and creates a user record and saves into database
             return "Username: " + username
+        
+    class _addTwonumbers(Resource):
+        def get(self):
+            return "Sum: " + request.args.get("num1") + " + " + request.args.get("num2") + " = " + str(int(request.args.get("num1"))+int(request.args.get("num2")))
 
     # building RESTapi resources/interfaces, these routes are added to Web Server
     api.add_resource(_GetHello, '/say/<string:firstname>')
     api.add_resource(_RegisterAccount, '/register')
+    api.add_resource(_addTwonumbers, '/add')

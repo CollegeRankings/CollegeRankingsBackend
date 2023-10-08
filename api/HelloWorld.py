@@ -3,6 +3,7 @@ from flask_restful import Api, request, Resource # used for REST API building
 import requests  # used for testing 
 import random
 
+
 helloworld_api = Blueprint('helloworld', __name__,
                    url_prefix='/api/helloworld')
 
@@ -13,7 +14,7 @@ class HelloWorldAPI:
     # not implemented
     class _GetHello(Resource):
         def get(self, firstname):
-            return "Hello World - " + firstname + request.args.get("lastname")
+            return "Hello World - " + firstname.upper() + request.args.get("lastname")
         
     class _RegisterAccount(Resource):
         def get(self):

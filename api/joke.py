@@ -61,7 +61,7 @@ class JokesAPI:
     api.add_resource(_UpdateJeer, '/jeer/<int:id>')
     
 if __name__ == "__main__": 
-    # server = "http://127.0.0.1:5000" # run local
+    #server = "http://127.0.0.1:5000" # run local
     server = 'https://flask.nighthawkcodingsociety.com' # run from web
     url = server + "/api/jokes"
     responses = []  # responses list

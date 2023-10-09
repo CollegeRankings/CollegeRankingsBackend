@@ -14,6 +14,7 @@ from model.players import initPlayers
 from api.covid import covid_api # Blueprint import api definition
 from api.joke import joke_api # Blueprint import api definition
 from api.user import user_api # Blueprint import api definition
+from api.HelloWorld import helloworld_api # Blueprint import api definition
 from api.player import player_api
 
 
@@ -30,6 +31,8 @@ app.register_blueprint(covid_api) # register api routes
 app.register_blueprint(user_api) # register api routes
 app.register_blueprint(player_api)
 app.register_blueprint(app_projects) # register app pages
+app.register_blueprint(helloworld_api) # register api routes
+
 
 @app.errorhandler(404)  # catch for URL not found
 def page_not_found(e):
@@ -55,4 +58,4 @@ if __name__ == "__main__":
     # change name for testing
     from flask_cors import CORS
     cors = CORS(app)
-    app.run(debug=True, host="0.0.0.0", port="8086")
+    app.run(debug=True, host="0.0.0.0", port="8181")

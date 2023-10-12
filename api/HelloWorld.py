@@ -2,6 +2,8 @@ from flask import Blueprint, jsonify  # jsonify creates an endpoint response obj
 from flask_restful import Api, request, Resource # used for REST API building
 import requests  # used for testing 
 import random
+from __init__ import login_manager, app, db
+from model.collegeRankingsModels import College
 
 
 helloworld_api = Blueprint('helloworld', __name__,
@@ -28,7 +30,13 @@ class HelloWorldAPI:
         def get(self):
             return "Sum: " + request.args.get("num1") + " + " + request.args.get("num2") + " = " + str(int(request.args.get("num1"))+int(request.args.get("num2")))
 
+    """class _getCollege(Resource):
+        def get(self):
+            first_college = db.session.query(College).first()
+            return first_college.name"""
+
     # building RESTapi resources/interfaces, these routes are added to Web Server
     api.add_resource(_GetHello, '/say/<string:firstname>')
     api.add_resource(_RegisterAccount, '/register')
     api.add_resource(_addTwonumbers, '/add')
+    # api.add_resource(_getCollege, "/college")

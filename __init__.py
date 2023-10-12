@@ -3,6 +3,7 @@ from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_cors import CORS
+import os
 
 
 """
@@ -11,16 +12,20 @@ These object can be used throughout project.
 2.) Isolating these object definitions avoids duplication and circular dependencies
 """
 
+login_manager = LoginManager()
+
 # Setup of key Flask object (app)
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 # Setup SQLAlchemy object and properties for the database (db)
-dbURI = 'sqlite:///volumes/sqlite.db'
+basedir = os.path.abspath(os.path.dirname(__file__))
+app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+print(app.config["SQLALCHEMY_DATABASE_URI"])
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = dbURI
 app.config['SECRET_KEY'] = 'SECRET_KEY'
 db = SQLAlchemy()
 Migrate(app, db)
+login_manager.init_app(app)
 
 # Images storage
 app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024  # maximum size of uploaded content

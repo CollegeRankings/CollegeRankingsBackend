@@ -18,9 +18,8 @@ class colleges:
         
     class _getcollegedetails(Resource):
         def get(self):
-            college = db.session.query(College).filter(College.id == int(request.args.get(id))).first()
+            college = db.session.query(College).filter(College.id == int(request.args.get("id"))).first()
             return jsonify(college.alldetails())
-    
     
     api.add_resource(_getColleges, "/colleges")
     api.add_resource(_getcollegedetails, "/collegedetails")

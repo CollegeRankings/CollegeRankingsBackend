@@ -4,6 +4,7 @@ import requests  # used for testing
 import random
 from __init__ import login_manager, app, db
 from model.collegeRankingsModels import College
+from ml.CollegeRecEngine import RecEngine
 
 college_api = Blueprint('college', __name__, url_prefix='/api/college')
 # API generator https://flask-restful.readthedocs.io/en/latest/api.html#id1
@@ -11,6 +12,7 @@ college_api = Blueprint('college', __name__, url_prefix='/api/college')
 
 api = Api(college_api)
 class colleges:
+    
     class _getColleges(Resource):
         def get(self):
             colleges = db.session.query(College).all()
@@ -21,12 +23,18 @@ class colleges:
             college = db.session.query(College).filter(College.id == int(request.args.get("id"))).first()
             return jsonify(college.alldetails())
         
-    class _getrankingsCollege(Resource):
+    class _getCollegeRec(Resource):
+        model = RecEngine()
+        
         def get(self):
-            colleges = db.session.query(College).filter(College.ranking >= 3, College.ranking <= 5).limit(5)
+            prediction = self.model.predict(float(request.args.get("gpa")), float(request.args.get("sat")))
+            if prediction < 1:
+                prediction = 1
+            elif prediction > 281:
+                prediction = 281
+            colleges = db.session.query(College).filter(College.ranking >= prediction-2, College.ranking <= prediction+2).limit(5)
             return jsonify([college.fewdetails() for college in colleges])
 
-    
     api.add_resource(_getColleges, "/colleges")
     api.add_resource(_getcollegedetails, "/collegedetails")
-    api.add_resource(_getrankingsCollege, "/mlrecommendation")
+    api.add_resource(_getCollegeRec, "/mlrecommendation")

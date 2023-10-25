@@ -50,7 +50,7 @@ class RecEngine:
 
 
 model = RecEngine()
-prediction = model.predict(3.9, 1580)
+prediction = model.predict(4.0, 1600)
 print(f"The predicted value is {prediction}")
 
 

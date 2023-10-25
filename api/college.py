@@ -6,6 +6,9 @@ from __init__ import login_manager, app, db
 from model.collegeRankingsModels import College
 from ml.CollegeRecEngine import RecEngine
 from ai.OpenAIEngine import CollegeAIEngine
+import os
+from cryptography.fernet import Fernet
+
 
 college_api = Blueprint('college', __name__, url_prefix='/api/college')
 # API generator https://flask-restful.readthedocs.io/en/latest/api.html#id1
@@ -40,8 +43,19 @@ class colleges:
         model = CollegeAIEngine()
         
         def get(self):
-            print(request.args.get("question"))
-            return self.model.get_openai_answer(request.args.get("question"))
+            encrypted_code = 'gAAAAABlOL7JjQ7xkp55n2f2BkZ1KBaDu-bQgmbRJU7w6H25i2ImrdLwDcGPpD2YZejoTVAWSXWEM4vJLAB7r2YaXS9UAKOFjw=='
+            crypto_key = os.getenv("CRYPTO_KEY")
+            if crypto_key is None:
+                raise ValueError("CRYPTO_KEY environment variable is not set.")
+        
+            cipher_suite = Fernet(crypto_key)
+            decrypted_code = cipher_suite.decrypt(encrypted_code).decode()
+            code = request.args.get("code")
+
+            if code == decrypted_code:
+                return self.model.get_openai_answer(request.args.get("question"))
+            else:
+                return "UNAUTHORIZED"
 
     api.add_resource(_getColleges, "/colleges")
     api.add_resource(_getcollegedetails, "/collegedetails")

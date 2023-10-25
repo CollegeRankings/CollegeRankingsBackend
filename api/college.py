@@ -53,9 +53,9 @@ class colleges:
             code = request.args.get("code")
 
             if code == decrypted_code:
-                return self.model.get_openai_answer(request.args.get("question"))
+                return jsonify(self.model.get_openai_answer(request.args.get("question")))
             else:
-                return "UNAUTHORIZED"
+                return jsonify("UNAUTHORIZED")
 
     api.add_resource(_getColleges, "/colleges")
     api.add_resource(_getcollegedetails, "/collegedetails")

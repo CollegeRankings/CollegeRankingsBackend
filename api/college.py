@@ -5,6 +5,7 @@ import random
 from __init__ import login_manager, app, db
 from model.collegeRankingsModels import College
 from ml.CollegeRecEngine import RecEngine
+from ai.OpenAIEngine import CollegeAIEngine
 
 college_api = Blueprint('college', __name__, url_prefix='/api/college')
 # API generator https://flask-restful.readthedocs.io/en/latest/api.html#id1
@@ -34,7 +35,15 @@ class colleges:
                 prediction = 281
             colleges = db.session.query(College).filter(College.ranking >= prediction-2, College.ranking <= prediction+2).limit(5)
             return jsonify([college.fewdetails() for college in colleges])
+        
+    class _getOpenAIResponse(Resource):
+        model = CollegeAIEngine()
+        
+        def get(self):
+            print(request.args.get("question"))
+            return self.model.get_openai_answer(request.args.get("question"))
 
     api.add_resource(_getColleges, "/colleges")
     api.add_resource(_getcollegedetails, "/collegedetails")
     api.add_resource(_getCollegeRec, "/mlrecommendation")
+    api.add_resource(_getOpenAIResponse, "/openai")

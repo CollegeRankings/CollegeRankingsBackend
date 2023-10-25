@@ -12,7 +12,8 @@
     - One page would give recommendation using Machine Learning (probably Free or Unrestricted version)
     - Other page would give recommendation using OpenAi (restricted version)
 - As a user, I want to add favorite colleges to my college list
-
+- As a user, I want to be able to view the best colleges for certain majors
+- As a user, I want there to be a system in which I can view the colleges based on location
 # Customer Personas
 
 - Age Range: Highschool (10th, 11th, 12th) or Parents of students
